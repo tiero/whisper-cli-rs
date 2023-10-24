@@ -335,6 +335,14 @@ impl Whisper {
         }
     }
 
+    pub async fn from_model_path<P: AsRef<Path>>(model: P, lang: Option<Language>) -> Self {
+        Self {
+            lang,
+            ctx: WhisperContext::new(model.as_ref().to_str().unwrap())
+                .expect("Failed to load model."),
+        }
+    }
+
     pub fn transcribe<P: AsRef<Path>>(
         &mut self,
         audio: P,
