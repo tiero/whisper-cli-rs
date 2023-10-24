@@ -109,7 +109,7 @@ jobs:
         run: rustup target add aarch64-apple-darwin
 
       - name: Build whisper_rs_sys for Apple Silicon
-        run: cargo build --release --target=aarch64-apple-darwin -p whisper_rs_sys
+        run: cargo build --release --target=aarch64-apple-darwin -p whisper-rs-sys
       
       - name: Build for Mac with Intel
         run: cargo build --release
