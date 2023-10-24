@@ -1,0 +1,25 @@
+{
+    "id": "whisper-tiny-cpp",
+    "name": "Whisper Tiny CPP",
+    "beta": true,
+    "description": "",
+    "documentation": "",
+    "serviceType": "binary",
+    "version": "1",
+    "icon": "",
+    "modelInfo": {
+        "memoryRequirements": 4800
+    },
+    "interfaces": [
+        "audio-to-text"
+    ],
+    "defaultExternalPort": 9446,
+    "weightsDirectoryUrl": null,
+    "weightsFiles": [],
+    "binariesUrl": {
+        "aarch64-apple-darwin": "https://github.com/premAI-io/prem-services/releases/download/v1/cht-llama-cpp-mistral-1-aarch64-apple-darwin",
+        "x86_64-apple-darwin": null,
+        "universal-apple-darwin": null
+    },
+    "serveCommand": "whisper serve -p 9446"
+}
