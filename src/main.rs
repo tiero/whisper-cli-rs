@@ -73,7 +73,7 @@ struct TranscribeArgs {
 async fn main() {
     let opts = Opts::parse();
     match opts.subcmd {
-        SubCommand::Serve { port, model_path} => {
+        SubCommand::Serve { port, model_path } => {
             let model_path = Path::new(&model_path);
             start_server(port, &model_path).await;
         }
@@ -84,13 +84,15 @@ async fn main() {
 async fn start_server(port: u16, model_path: &Path) {
     // load model
     let whisper = Arc::new(Mutex::new(
-        Whisper::from_model_path(model_path, Some(Language::Auto)).await
+        Whisper::from_model_path(model_path, Some(Language::Auto)).await,
     ));
 
     let make_svc = make_service_fn(move |_conn| {
         let whisper_clone = whisper.clone();
         async move {
-            Ok::<_, Infallible>(service_fn(move |req| handle_transcription(req, whisper_clone.clone())))
+            Ok::<_, Infallible>(service_fn(move |req| {
+                handle_transcription(req, whisper_clone.clone())
+            }))
         }
     });
 
