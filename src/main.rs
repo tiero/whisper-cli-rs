@@ -111,6 +111,17 @@ async fn handle_transcription(
     req: Request<Body>,
     whisper: Arc<Mutex<Whisper>>,
 ) -> Result<Response<Body>, Infallible> {
+    // Check if the request is a preflight request (OPTIONS method)
+    if req.method() == hyper::Method::OPTIONS && req.uri().path() == "/v1/audio/transcriptions" {
+        let res = Response::builder()
+            .status(StatusCode::OK)
+            .header("Access-Control-Allow-Origin", "*")
+            .header("Access-Control-Allow-Methods", "POST, OPTIONS")
+            .header("Access-Control-Allow-Headers", "Content-Type")
+            .body(Body::empty())
+            .unwrap();
+        return Ok(res);
+    }
     // Extract the `multipart/form-data` boundary from the headers.
     let boundary = req
         .headers()
@@ -122,6 +133,7 @@ async fn handle_transcription(
     if boundary.is_none() {
         return Ok(Response::builder()
             .status(StatusCode::BAD_REQUEST)
+            .header("Access-Control-Allow-Origin", "*")  // Add this for CORS
             .body(Body::from("BAD REQUEST"))
             .unwrap());
     }
@@ -129,7 +141,16 @@ async fn handle_transcription(
     // Process the multipart e.g. you can store them in files.
     let transcription_request = process_multipart(req.into_body(), boundary.unwrap()).await;
 
+    if let Err(err) = transcription_request {
+        return Ok(Response::builder()
+            .status(StatusCode::INTERNAL_SERVER_ERROR)
+            .header("Access-Control-Allow-Origin", "*")  // Add this for CORS
+            .body(Body::from(format!("INTERNAL SERVER ERROR: {}", err)))
+            .unwrap());
+    }
+
     if let Ok(trans_req) = transcription_request {
+        
         let audio = Path::new(trans_req.as_str());
         let transcript = {
             let mut whisper_guard = whisper.lock().unwrap();
@@ -144,12 +165,12 @@ async fn handle_transcription(
 
         let json_response = to_string(&response).expect("Failed to serialize to JSON");
 
-        return Ok(Response::new(Body::from(json_response)));
-    } else if let Err(err) = transcription_request {
-        return Ok(Response::builder()
-            .status(StatusCode::INTERNAL_SERVER_ERROR)
-            .body(Body::from(format!("INTERNAL SERVER ERROR: {}", err)))
-            .unwrap());
+        let response = Response::builder()
+            .header("Access-Control-Allow-Origin", "*") // Add this for CORS
+            .body(Body::from(json_response))
+            .unwrap();
+
+        return Ok(response);
     }
 
     Ok(Response::new(Body::from("Success")))
