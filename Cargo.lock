@@ -2479,7 +2479,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "whisper_cli"
+name = "whisperd"
 version = "0.1.0"
 dependencies = [
  "anyhow",

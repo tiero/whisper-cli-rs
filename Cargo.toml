@@ -2,7 +2,7 @@
 license = "MIT"
 edition = "2021"
 version = "0.1.0"
-name = "whisper_cli"
+name = "whisperd"
 readme = "README.md"
 homepage = "https://github.com/tiero/whisperd"
 description = "HTTP server for the OpenAI Whisper speech-to-text model."

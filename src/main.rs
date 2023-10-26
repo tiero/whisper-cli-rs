@@ -10,7 +10,7 @@ use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::{convert::Infallible, net::SocketAddr};
-use whisper_cli::{Language, Model, Size, Whisper};
+use whisperd::{Language, Model, Size, Whisper};
 
 use crate::utils::write_to;
 
