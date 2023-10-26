@@ -1,6 +1,3 @@
-Sure, here's a README for your `whisperd` HTTP server:
-
-```markdown
 # whisperd 🎙️
 
 [![Crates.io](https://img.shields.io/crates/v/whisperd)](https://crates.io/crates/whisperd)
@@ -85,4 +82,3 @@ Pull requests and issues are welcome!
 ## License 📜
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
