@@ -64,8 +64,8 @@ jobs:
       - name: "Move to outputs/ folder"
         run: |
           mkdir outputs
-          cp target/release/whisper outputs/whisper-linux-x86_64
-          cp target/debian/*.deb outputs/whisper-linux-x86_64.deb
+          cp target/release/whisperd outputs/whisperd-linux-x86_64
+          cp target/debian/*.deb outputs/whisperd-linux-x86_64.deb
 
       - name: Upload to temporary storage
         uses: actions/upload-artifact@master
@@ -111,8 +111,7 @@ jobs:
       - name: "Move to outputs/ folder"
         run: |
           mkdir outputs
-          cp target/release/whisper outputs/whisper-darwin-x86_64
-          cp target/aarch64-apple-darwin/release/whisper outputs/whisper-darwin-aarch64
+          cp target/release/whisperd outputs/whisperd-darwin-aarch64
       
       - name: Upload to temporary storage
         uses: actions/upload-artifact@master
