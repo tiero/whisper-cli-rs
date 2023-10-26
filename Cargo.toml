@@ -9,6 +9,12 @@ description = "HTTP server for the OpenAI Whisper speech-to-text model."
 repository = "https://github.com/tiero/whisperd"
 keywords = ["whisper", "openai", "cli", "transcribe", "serve"]
 categories = ["command-line-utilities"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+]
 
 [[bin]]
 name = "whisperd"
