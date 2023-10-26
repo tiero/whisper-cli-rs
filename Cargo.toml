@@ -4,15 +4,14 @@ edition = "2021"
 version = "0.1.0"
 name = "whisper_cli"
 readme = "README.md"
-homepage = "https://github.com/m1guelpf/whisper-cli-rs"
-description = "A command line interface for whisper-rs"
-repository = "https://github.com/m1guelpf/whisper-cli-rs"
-authors = ["Miguel Piedrafita <soy@miguelpiedrafita.com>"]
-keywords = ["whisper", "openai", "cli", "transcribe"]
+homepage = "https://github.com/tiero/whisperd"
+description = "HTTP server for the OpenAI Whisper speech-to-text model."
+repository = "https://github.com/tiero/whisperd"
+keywords = ["whisper", "openai", "cli", "transcribe", "serve"]
 categories = ["command-line-utilities"]
 
 [[bin]]
-name = "whisper"
+name = "whisperd"
 path = "src/main.rs"
 
 [dependencies]
