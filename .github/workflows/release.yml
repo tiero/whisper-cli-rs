@@ -54,12 +54,6 @@ jobs:
       - name: Build
         run: cargo build --release
 
-      - name: Publish Crate
-        uses: katyo/publish-crates@v2
-        with:
-          args: --allow-dirty
-          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-
       - name: Install cargo-deb
         run: cargo install cargo-deb
         continue-on-error: true
@@ -78,10 +72,16 @@ jobs:
         with:
           name: output-artifact
           path: outputs
+      
+      - name: Publish Crate
+        uses: katyo/publish-crates@v2
+        with:
+          args: --allow-dirty
+          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
   macos:
     name: Build for Mac
-    runs-on: macos-11
+    runs-on: macos-latest-large
     needs: [version_bump]
 
     steps:
@@ -105,17 +105,8 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
       
-      - name: Add aarch64 target
-        run: rustup target add aarch64-apple-darwin
-
-      - name: Build whisper_rs_sys for Apple Silicon
-        run: cargo build --release --target=aarch64-apple-darwin -p whisper-rs-sys
-      
-      - name: Build for Mac with Intel
+      - name: Build for Mac with Silicon
         run: cargo build --release
-
-      - name: Build for Apple Silicon
-        run: cargo build --release --target=aarch64-apple-darwin
 
       - name: "Move to outputs/ folder"
         run: |

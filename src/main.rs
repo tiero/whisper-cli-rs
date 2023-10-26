@@ -10,7 +10,7 @@ use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::{convert::Infallible, net::SocketAddr};
-use whisper_cli::{Language, Model, Size, Whisper};
+use whisperd::{Language, Model, Size, Whisper};
 
 use crate::utils::write_to;
 
@@ -133,7 +133,7 @@ async fn handle_transcription(
     if boundary.is_none() {
         return Ok(Response::builder()
             .status(StatusCode::BAD_REQUEST)
-            .header("Access-Control-Allow-Origin", "*")  // Add this for CORS
+            .header("Access-Control-Allow-Origin", "*") // Add this for CORS
             .body(Body::from("BAD REQUEST"))
             .unwrap());
     }
@@ -144,13 +144,12 @@ async fn handle_transcription(
     if let Err(err) = transcription_request {
         return Ok(Response::builder()
             .status(StatusCode::INTERNAL_SERVER_ERROR)
-            .header("Access-Control-Allow-Origin", "*")  // Add this for CORS
+            .header("Access-Control-Allow-Origin", "*") // Add this for CORS
             .body(Body::from(format!("INTERNAL SERVER ERROR: {}", err)))
             .unwrap());
     }
 
     if let Ok(trans_req) = transcription_request {
-        
         let audio = Path::new(trans_req.as_str());
         let transcript = {
             let mut whisper_guard = whisper.lock().unwrap();
